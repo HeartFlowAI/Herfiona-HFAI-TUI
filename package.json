@@ -7,12 +7,12 @@
   "keywords": ["cli", "ai", "agent", "ollama", "openrouter", "tui", "coding"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sobraniex/herfiona.git"
+    "url": "git+https://github.com/HeartFlowAI/Herfiona-HFAI-TUI.git"
   },
   "bugs": {
-    "url": "https://github.com/Sobraniex/herfiona/issues"
+    "url": "https://github.com/HeartFlowAI/Herfiona-HFAI-TUI/issues"
   },
-  "homepage": "https://github.com/Sobraniex/herfiona#readme",
+  "homepage": "https://github.com/HeartFlowAI/Herfiona-HFAI-TUI#readme",
   "bin": {
     "aurora": "dist/index.js"
   },

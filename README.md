@@ -23,18 +23,18 @@ here for you ♡ · deepseek-v4.1-flash:cloud · ollama · /help
 
 ```sh
 # try it without installing
-npx github:Sobraniex/herfiona
+npx github:HeartFlowAI/Herfiona-HFAI-TUI
 
 # or install globally
-npm install -g github:Sobraniex/herfiona
+npm install -g github:HeartFlowAI/Herfiona-HFAI-TUI
 aurora
 ```
 
 **From a clone:**
 
 ```sh
-git clone https://github.com/Sobraniex/herfiona
-cd aurora
+git clone https://github.com/HeartFlowAI/Herfiona-HFAI-TUI
+cd Herfiona-HFAI-TUI
 npm install        # installs deps; dist/ is already committed
 npm link           # puts `aurora` on your PATH
 aurora
