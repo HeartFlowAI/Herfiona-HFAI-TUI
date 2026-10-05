@@ -5,6 +5,14 @@
   "type": "module",
   "license": "MIT",
   "keywords": ["cli", "ai", "agent", "ollama", "openrouter", "tui", "coding"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sobraniex/aurora.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Sobraniex/aurora/issues"
+  },
+  "homepage": "https://github.com/Sobraniex/aurora#readme",
   "bin": {
     "aurora": "dist/index.js"
   },

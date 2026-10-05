@@ -19,18 +19,37 @@ here for you ♡ · deepseek-v4.1-flash:cloud · ollama · /help
 
 ## Install / run
 
+**From GitHub** (no npm publish needed):
+
+```sh
+# try it without installing
+npx github:Sobraniex/aurora
+
+# or install globally
+npm install -g github:Sobraniex/aurora
+aurora
+```
+
+**From a clone:**
+
+```sh
+git clone https://github.com/Sobraniex/aurora
+cd aurora
+npm install        # installs deps; dist/ is already committed
+npm link           # puts `aurora` on your PATH
+aurora
+```
+
+**Run from source:**
+
 ```sh
 npm install
 npm run build
 node dist/index.js
 ```
 
-Install it globally so `aurora` is on your PATH:
-
-```sh
-npm link
-aurora
-```
+Aurora needs Node 20+. It works immediately with a local Ollama daemon and
+needs no API key for local models.
 
 ## Providers
 
