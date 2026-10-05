@@ -23,17 +23,17 @@ here for you ♡ · deepseek-v4.1-flash:cloud · ollama · /help
 
 ```sh
 # try it without installing
-npx github:Sobraniex/aurora
+npx github:Sobraniex/herfiona
 
 # or install globally
-npm install -g github:Sobraniex/aurora
+npm install -g github:Sobraniex/herfiona
 aurora
 ```
 
 **From a clone:**
 
 ```sh
-git clone https://github.com/Sobraniex/aurora
+git clone https://github.com/Sobraniex/herfiona
 cd aurora
 npm install        # installs deps; dist/ is already committed
 npm link           # puts `aurora` on your PATH
