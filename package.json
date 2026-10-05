@@ -1,0 +1,49 @@
+{
+  "name": "aurora-cli",
+  "version": "0.2.0",
+  "description": "Aurora — a cute pink AI coding companion for your terminal. Local-first agent with a waifu who talks back.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": ["cli", "ai", "agent", "ollama", "openrouter", "tui", "coding"],
+  "bin": {
+    "aurora": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "node --import tsx src/index.tsx",
+    "start": "node dist/index.js",
+    "test": "node --test tests/*.test.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "ink": "^6.0.1",
+    "react": "^19.1.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
