@@ -245,3 +245,4 @@ npm run dev            # run from source with tsx
 ## License
 
 MIT
+`/strategy "path to package.json"` opens local-only rule package inspection. See [strategy packages](STRATEGY-PACKAGES.md) for boundaries and pending acceptance.

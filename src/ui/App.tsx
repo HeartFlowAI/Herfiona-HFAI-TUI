@@ -2,6 +2,7 @@ import { createElement as h, useCallback, useEffect, useMemo, useRef, useState, 
 import { Box, Text, useApp, useInput } from 'ink';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import {inspectStrategy} from '../companion/strategy.js';
 import { Agent, buildSystemPrompt } from '../agent/loop.js';
 import type { ApprovalRequest } from '../agent/tools.js';
 import { allTools } from '../agent/tools.js';
@@ -82,6 +83,9 @@ export default function App({ config, adapter, locality, truecolor }: Props): Re
   const [liveReasoning, setLiveReasoning] = useState('');
   const [showThinking, setShowThinking] = useState(config.showThinking);
   const [phase, setPhase] = useState<Phase>('idle');
+  const [inspection,setInspection]=useState<string[]|null>(null);
+  const [inspectionOffset,setInspectionOffset]=useState(0);
+  const inspectionGeneration=useRef(0);
   const [activity, setActivity] = useState('');
   const [pending, setPending] = useState<Pending | null>(null);
   const [input, setInputState] = useState('');
@@ -511,6 +515,14 @@ export default function App({ config, adapter, locality, truecolor }: Props): Re
       const [command, ...rest] = raw.slice(1).split(/\s+/);
       const arg = rest.join(' ').trim();
       switch (command) {
+        case 'strategy': {
+          if(phase!=='idle')return true;
+          const rawPath=raw.slice('/strategy'.length).trim(),path=rawPath.startsWith('"')&&rawPath.endsWith('"')?rawPath.slice(1,-1):rawPath;
+          const generation=++inspectionGeneration.current;setInspectionOffset(0);setInspection(['Reading selected local rule package…','Escape closes this view.']);
+          if(!path){setInspection(['Usage: /strategy "path to exported rule package.json"','Inspection stays outside chat, saved sessions and model context.']);return true;}
+          void inspectStrategy(resolve(settingsRef.current.workspace,path)).then(lines=>{if(generation===inspectionGeneration.current)setInspection(lines);}).catch(error=>{if(generation===inspectionGeneration.current)setInspection(['Package inspection failed.',error instanceof Error?error.message:'Invalid package.']);});
+          return true;
+        }
         case 'model':
           if (arg) void applySettings({ model: arg });
           else openPalette('model');
@@ -602,7 +614,7 @@ export default function App({ config, adapter, locality, truecolor }: Props): Re
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [applySettings, clearConversation, commit, exit, persist, toggleMode],
+    [applySettings, clearConversation, commit, exit, persist, toggleMode,phase],
   );
   const loadModels = useCallback(async (nextProvider: 'ollama' | 'openrouter') => {
     setModelsLoading(true);
@@ -874,6 +886,7 @@ export default function App({ config, adapter, locality, truecolor }: Props): Re
   );
 
   useInput((value, key) => {
+    if(inspection){if(key.escape){++inspectionGeneration.current;setInspection(null);}else if(key.downArrow||key.pageDown||value==='n')setInspectionOffset(offset=>offset+Math.max(1,rows-4));else if(key.upArrow||key.pageUp||value==='p')setInspectionOffset(offset=>Math.max(0,offset-Math.max(1,rows-4)));return;}
     // --- Text modal (API keys) captures input while open -----------------
     if (modal) {
       if (key.escape) {
@@ -1058,6 +1071,7 @@ export default function App({ config, adapter, locality, truecolor }: Props): Re
                     ? 'theme'
                     : 'workspace';
 
+  if(inspection){const width=Math.max(12,columns-4),lines=inspection.flatMap(line=>line.split('\n').flatMap(part=>part.match(new RegExp(`.{1,${width}}`,'gu'))??[''])),count=Math.max(1,rows-4),offset=Math.min(inspectionOffset,Math.max(0,lines.length-count));return h(Box,{flexDirection:'column',width:columns,height:rows},h(Text,{bold:true},'Strategy package · local inspection'),h(Text,null,'↑/↓ or p/n scroll · Escape close · no model sharing'),...lines.slice(offset,offset+count).map((line,index)=>h(Text,{key:index,wrap:'truncate'},line)),h(Text,null,`${offset+1}–${Math.min(lines.length,offset+count)} / ${lines.length}`));}
   return h(Box, { flexDirection: 'column', width: columns, height: rows },
     h(Header, { title, contextUsed, contextPercent, columns }),
     h(Box, { flexDirection: 'row', flexGrow: 1 },
