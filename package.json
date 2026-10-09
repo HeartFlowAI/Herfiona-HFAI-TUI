@@ -31,7 +31,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/copy-companion.mjs",
     "build:watch": "tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "node --import tsx src/index.tsx",
@@ -55,3 +55,4 @@
     "esbuild@0.28.2": true
   }
 }
+
