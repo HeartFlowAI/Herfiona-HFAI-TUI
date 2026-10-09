@@ -1,0 +1,2 @@
+src/companion/reader.cjs -text
+dist/companion/reader.cjs -text
